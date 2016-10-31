@@ -1,7 +1,6 @@
 # 奶子奶子奶
 
-添加已有项目到github  
-
+#添加已有项目到github  
 touch README.md //新建说明文件  
 git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录  
 git add . //添加当前目录中的所有文件到索引  
@@ -11,8 +10,7 @@ git push -u origin master //把本地源码库push到github 别名为origin的�
 
 
 
-更新代码
-
+#更新代码  
 cd /d/TVCloud  
 git add .  
 git commit -m "update test" //检测文件改动并附加提交注释  
@@ -20,8 +18,7 @@ git push -u origin master //提交修改到项目主线
 
 
 
-github常用命令
-
+#github常用命令  
 git push origin master //把本地源码库push到Github上  
 git pull origin master //从Github上pull到本地源码库  
 git config --list //查看配置信息  
