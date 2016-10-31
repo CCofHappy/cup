@@ -1,8 +1,6 @@
 # 奶子奶子奶
 
-# 添加已有项目到github
-
-touch README.md //新建说明文件
+添加已有项目到github  touch README.md //新建说明文件
 git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录
 git add . //添加当前目录中的所有文件到索引
 git commit -m "first commit" //提交到本地源码库，并附加提交注释
