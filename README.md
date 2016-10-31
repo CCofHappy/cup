@@ -1,6 +1,6 @@
 # 奶子奶子奶
 
-添加已有项目到github
+# 添加已有项目到github
 
 touch README.md //新建说明文件
 git init //在当前项目目录中生成本地git管理,并建立一个隐藏.git目录
