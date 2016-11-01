@@ -1,6 +1,4 @@
 # 奶子奶子奶
-<<<<<<< HEAD
-=======
 
 #添加已有项目到github  
 touch README.md //新建说明文件  
@@ -38,6 +36,6 @@ git无法pull仓库refusing to merge unrelated histories
 因为他们是两个不同的项目，要把两个不同的项目合并，git需要添加一句代码，在git pull，这句代码是在git 2.9.2版本发生的，最新的版本需要添加--allow-unrelated-histories
 假如我们的源是origin，分支是master，那么我们需要这样写git pull origin master --allow-unrelated-histories
 需要知道，我们的源可以是本地的路径
->>>>>>> 5198f9201cafeb0e7a70badba429691c785a6990
+
 
 
