@@ -31,11 +31,11 @@ git branch -d host //删除分支host
 
 
 #github常见问题
-git无法pull仓库refusing to merge unrelated histories  
+git无法pull仓库refusing to merge unrelated histories
 因为两个仓库不同，发现refusing to merge unrelated histories，无法pull
 因为他们是两个不同的项目，要把两个不同的项目合并，git需要添加一句代码，在git pull，这句代码是在git 2.9.2版本发生的，最新的版本需要添加--allow-unrelated-histories
 假如我们的源是origin，分支是master，那么我们需要这样写git pull origin master --allow-unrelated-histories
-需要知道，我们的源可以是本地的路径
+需要知道，我们的源可以是本地的路径  
 
 
 
