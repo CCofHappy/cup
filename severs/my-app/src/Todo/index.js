@@ -1,13 +1,18 @@
 import React from 'react';
 import TodoList from  './TodoList';
 
+var idnum = 0;
+function id() {
+    return idnum++
+};
+
 var TodoMVC = React.createClass({
     getInitialState:function(){
         return{
             items:[
-                {text:"aa",id:0},
-                {text:"bb",id:1},
-                {text:"cc",id:2}
+                {text:"aa",id:id()},
+                {text:"bb",id:id()},
+                {text:"cc",id:id()}
             ],
             value:''
         }
@@ -17,7 +22,7 @@ var TodoMVC = React.createClass({
         return(
             <div className="todo-mvc">
                 <h3>tools</h3>
-                <TodoList items={this.state.items} onDelete={this.handleDelete}/>
+                <TodoList items={this.state.items} onEdit={this.handleEdit} onDelete={this.handleDelete}/>
                 <p>
                     <input value={this.state.value} onChange={this.handleChange}/>
                     <button onClick={this.handleAdd}>提交</button>
@@ -36,7 +41,7 @@ var TodoMVC = React.createClass({
             text = this.state.value;
         items.push({
             text:text,
-            id:items.length
+            id:id()
         });
         this.setState({
             items:items,
@@ -53,6 +58,21 @@ var TodoMVC = React.createClass({
         }
         this.setState({
             items:json
+        })
+    },
+    handleEdit:function (e) {
+        console.log(e.text);
+        console.log(e.id);
+        var items = this.state.items;
+        for (var i = 0;i<items.length;i++ ){
+            if (items[i].id == e.id){
+                items[i].text = e.text;
+                console.log(e.text);
+                console.log(e.id);
+            }
+        }
+        this.setState({
+            items:items
         })
     }
 })
