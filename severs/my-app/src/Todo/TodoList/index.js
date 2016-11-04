@@ -10,6 +10,14 @@ var TodoLi = React.createClass({
         return(
             <li key={this.props.list.id}>
                 {this.props.list.text}
+                <button
+                    className={ this.props.list.type == 'active' ? 'action' : ''}
+                    onClick={this.changeActive}
+                >Active</button>
+                <button
+                    className={ this.props.list.type == 'complete' ? 'action' : ''}
+                    onClick={this.changeComplete}
+                >Complete</button>
                 <button onClick={this.props.delete}>删除</button><br/>
                 <input value={this.state.value} onChange={this.handleChange}/>
                 <button onClick={this.handleEdit}>修改</button>
@@ -17,6 +25,12 @@ var TodoLi = React.createClass({
                 <br/><br/>
             </li>
         )
+    },
+    changeActive:function (e) {
+        this.props.active(e) ;
+    },
+    changeComplete:function (e) {
+        this.props.complete(e) ;
     },
     handleChange:function (e) {
         this.setState({
@@ -45,7 +59,13 @@ var TodoList = React.createClass({
         var that = this;
         var nodes = this.props.items.map(function (e) {
             return(
-                <TodoLi list={e} delete={that.delete.bind(that,e)} edit={that.edit} />
+                <TodoLi
+                    list={e}
+                    delete={that.delete.bind(that,e)}
+                    edit={that.edit}
+                    active={that.active}
+                    complete={that.complete}
+                />
             )
         });
         return(
@@ -57,6 +77,12 @@ var TodoList = React.createClass({
     },
     edit:function (e) {
         this.props.onEdit(e);
+    },
+    active:function (e) {
+        this.props.onActive(e);
+    },
+    complete:function (e) {
+        this.props.onComplete(e);
     }
 
 });
