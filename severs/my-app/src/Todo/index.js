@@ -18,7 +18,6 @@ var TodoMVC = React.createClass({
             type:'all'
         }
     },
-
     render:function () {
         var items = this.state.items,
             type = this.state.type,
@@ -108,6 +107,7 @@ var TodoMVC = React.createClass({
         })
     },
     changeActive:function (e) {
+        console.log(e.id);
         var items = this.state.items;
         for (var i = 0;i<items.length;i++ ){
             if (items[i].id == e.id){

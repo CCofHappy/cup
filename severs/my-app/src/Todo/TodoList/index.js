@@ -12,11 +12,11 @@ var TodoLi = React.createClass({
                 {this.props.list.text}
                 <button
                     className={ this.props.list.type == 'active' ? 'action' : ''}
-                    onClick={this.changeActive}
+                    onClick={this.props.active}
                 >Active</button>
                 <button
                     className={ this.props.list.type == 'complete' ? 'action' : ''}
-                    onClick={this.changeComplete}
+                    onClick={this.props.complete}
                 >Complete</button>
                 <button onClick={this.props.delete}>删除</button><br/>
                 <input value={this.state.value} onChange={this.handleChange}/>
@@ -63,8 +63,8 @@ var TodoList = React.createClass({
                     list={e}
                     delete={that.delete.bind(that,e)}
                     edit={that.edit}
-                    active={that.active}
-                    complete={that.complete}
+                    active={that.active.bind(that,e)}
+                    complete={that.complete.bind(that,e)}
                 />
             )
         });
