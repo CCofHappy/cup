@@ -8,7 +8,7 @@ var TodoLi = React.createClass({
     },
     render:function () {
         return(
-            <li key={this.props.list.id}>
+            <li>
                 {this.props.list.text}
                 <button
                     className={ this.props.list.type == 'active' ? 'action' : ''}
@@ -22,15 +22,8 @@ var TodoLi = React.createClass({
                 <input value={this.state.value} onChange={this.handleChange}/>
                 <button onClick={this.handleEdit}>修改</button>
                 <button onClick={this.handleCancel}>取消</button>
-                <br/><br/>
             </li>
         )
-    },
-    changeActive:function (e) {
-        this.props.active(e) ;
-    },
-    changeComplete:function (e) {
-        this.props.complete(e) ;
     },
     handleChange:function (e) {
         this.setState({
@@ -61,6 +54,7 @@ var TodoList = React.createClass({
             return(
                 <TodoLi
                     list={e}
+                    key={e.id}
                     delete={that.delete.bind(that,e)}
                     edit={that.edit}
                     active={that.active.bind(that,e)}

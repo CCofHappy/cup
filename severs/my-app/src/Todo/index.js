@@ -30,6 +30,17 @@ var TodoMVC = React.createClass({
         return(
             <div className="todo-mvc">
                 <h3>tools</h3>
+                <p className="nav">
+                    <button onClick={(e)=>this.setState({type:'all'})}
+                            className={ this.state.type == 'all' ? 'action' : ''}
+                    >ALL</button>
+                    <button onClick={(e)=>this.setState({type:'active'})}
+                            className={ this.state.type == 'active' ? 'action' : ''}
+                    >ACTIVE</button>
+                    <button onClick={(e)=>this.setState({type:'complete'})}
+                            className={ this.state.type == 'complete' ? 'action' : ''}
+                    >COMPLETE</button>
+                </p>
                 <TodoList
                     items={json}
                     onEdit={this.handleEdit}
@@ -38,32 +49,11 @@ var TodoMVC = React.createClass({
                     onComplete={this.changeComplete}
                 />
                 <p>
-                    <button onClick={this.handleAll}>ALL</button>
-                    <button onClick={this.handleActive}>ACTIVE</button>
-                    <button onClick={this.handleComplete}>COMPLETE</button>
-                </p>
-                <p>
                     <input value={this.state.value} onChange={this.handleChange}/>
-                    <button onClick={this.handleAdd}>提交</button>
+                    <button onClick={this.handleAdd}>增加</button>
                 </p>
             </div>
         )
-    },
-
-    handleAll:function () {
-        this.setState({
-            type:'all'
-        })
-    },
-    handleActive:function () {
-        this.setState({
-            type:'active'
-        })
-    },
-    handleComplete:function () {
-        this.setState({
-            type:'complete'
-        })
     },
     handleChange:function (e) {
         this.setState({
