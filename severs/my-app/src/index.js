@@ -6,11 +6,13 @@ import AntdStudy from './Antd-study/AntdStudy';
 import Todo from './Todo/index';
 import './index.css';
 
+
 ReactDOM.render(
     <div>
-        <App />
-        <Todo />
-        {/*<AntdTest />*/}
+        <App/>
+        {/*<Todo/>*/}
+        {/*<AntdTest/>*/}
+        <br/>
         <AntdStudy/>
     </div>,
     document.getElementById('root')
