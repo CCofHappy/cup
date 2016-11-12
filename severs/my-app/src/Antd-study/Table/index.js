@@ -6,7 +6,8 @@ import React from'react';
 var tableTest = React.createClass({
     render:function () {
         var header = this.props.columns,
-            data = this.props.dataSource;
+            data = this.props.dataSource,
+            that = this;
         var arr = [];
         var headerNodes = header.map(function (obj) {
             arr.push(obj.dataIndex);
@@ -22,7 +23,7 @@ var tableTest = React.createClass({
                 )
             });
             return(
-                <tr key={'tr-'+i}>{cols}</tr>
+                <tr onClick={(e)=>that.props.onRowClick(obj)} key={'tr-'+i}>{cols}</tr>
             )
         });
 

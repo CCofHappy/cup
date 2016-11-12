@@ -47,14 +47,22 @@ var antTest = React.createClass({
                 value={this.state.value}
                 onChange={(e)=>this.setState({value:e.target.value})}
                 onPressEnter={this.enter}
+
             />
             <br/><br/>
-            <Table border dataSource={dataSource} columns={columns}/>
+            <Table border
+                   dataSource={dataSource}
+                   columns={columns}
+                   onRowClick={this.rowClick}
+            />
         </div>
         )
     },
     enter:function (e) {
         alert(e.target.value)
+    },
+    rowClick:function (e) {
+        alert(JSON.stringify(e))
     }
 });
 export default antTest;

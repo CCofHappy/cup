@@ -3,64 +3,56 @@
  */
 import React from 'react';
 import {Button,Col,Row,Table} from 'antd';
+import  request from 'superagent'
 import 'antd/dist/antd.css'
 
 var header = [
+    {title:'id',dataIndex:'id'},
     {title:'name',dataIndex:'name'},
     {title:'age',dataIndex:'age'},
-    {title:'sex',dataIndex:'sex'}
+    {title:'sex',dataIndex:'sex'},
+    {title:'single',dataIndex:'single'}
 ];
 
 var data = [
-    {name:'cup',age:"26",sex:"man"},
-    {name:'star',age:"32",sex:"man"},
-    {name:'YangYang',age:"24",sex:"woman"},
-    {name:'cup',age:"26",sex:"man"},
-    {name:'star',age:"32",sex:"man"},
-    {name:'YangYang',age:"24",sex:"woman"},
-    {name:'cup',age:"26",sex:"man"},
-    {name:'star',age:"32",sex:"man"},
-    {name:'YangYang',age:"24",sex:"woman"},
-    {name:'cup',age:"26",sex:"man"},
-    {name:'star',age:"32",sex:"man"},
-    {name:'YangYang',age:"24",sex:"woman"}
+
 ];
+const getAll='http://101.200.129.112:9527/react1/student/';
 
 var ReactTest = React.createClass({
     getInitialState:function () {
         return{
-            loading:false
+            loading:false,
+            items:[]
         }
     },
     render:function () {
         return(
             <div>
                 <br/>
+                <h3>动脑学院学生信息系统</h3>
                 <Row>
                     <Col>
-                        <Table dataSource={data} columns={header}/>
+                        <Table dataSource={this.state.items} columns={header}/>
                     </Col>
                 </Row>
                 <br/><br/>
-                <Row span={4}>
-                    <Button type="primary">hello xixi!</Button>
-                </Row>
-                <br/>
-                <Col span={4}>
-                    <Button
-                        type="ghost"
-                        icon={this.state.loading?null:"loading"}
-                        onClick={this.ajax}
-                    >hello cup!</Button>
-                </Col>
-                <br/>
             </div>
         )
     },
-    ajax:function () {
-        this.setState({
-            loading:!this.state.loading
-        })
+    componentDidMount(){
+        var that = this;
+        request
+            .get(getAll)
+            .end(function (err,res) {
+                res.body = res.body.map(function (obj) {
+                        obj.key = obj.id;
+                        return obj;
+                });
+                that.setState({
+                    items:res.body
+                })
+            })
     }
 
 });
