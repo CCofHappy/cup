@@ -26,10 +26,7 @@ var header = [
     }
 ];
 
-var data = [
-
-];
-const api='http://101.200.129.112:9527/react1/student/';
+var api='http://101.200.129.112:9527/react1/student/';
 
 var ReactTest = React.createClass({
     getInitialState:function () {
@@ -37,13 +34,23 @@ var ReactTest = React.createClass({
             loading:true,
             items:[],
             modal:false,
+
             name:'',
             age:'',
             sex:'',
-            single:null
+            single:null,
+
+            selectedRowKeys:[],
+
         }
     },
     render:function () {
+        const { loading , selectedRowKeys } = this.state;
+        const  rowSelection={
+            selectedRowKeys:selectedRowKeys,
+            onChange:this.onSelectChange,
+        };
+        var del = selectedRowKeys.length ==1;
         return(
             <div className="table-box">
                 <br/>
@@ -52,9 +59,14 @@ var ReactTest = React.createClass({
                     <br/>
                     <Button icon="plus" type="primary" onClick={this.handleAdd}>增加</Button>&nbsp;
                     <Button icon="edit" type="ghost">编辑</Button>&nbsp;
-                    <Button icon="delete">删除</Button>&nbsp;
+                    <Button icon="delete" onClick={this.handleDelete} disabled={!del}>删除</Button>&nbsp;
                     <br/><br/>
-                    <Table loading={this.state.loading} dataSource={this.state.items} columns={header}/>
+                    <Table
+                        loading={this.state.loading}
+                        dataSource={this.state.items}
+                        columns={header}
+                        rowSelection={rowSelection}
+                    />
                 </div>
                 <Modal
                     visible={this.state.modal}
@@ -107,6 +119,27 @@ var ReactTest = React.createClass({
                 </Modal>
             </div>
         )
+    },
+    onSelectChange(selectedRowKeys){
+        console.log(selectedRowKeys);
+        this.setState({selectedRowKeys:selectedRowKeys});
+    },
+    handleDelete(){
+        var that = this;
+        Modal.confirm({
+            title:'删除信息',
+            content:'你确定删除这条信息吗？该操作不可逆，请小心使用',
+            onOk:function () {
+                message.success('成功删除一条信息');
+                var id = that.state.selectedRowKeys;
+                var deleteRequest = api + id;
+                request
+                    .delete(deleteRequest)
+                    .end(function (err,res) {
+                        console.log(res.body);
+                    });
+            }
+        })
     },
     handleSave(){
         var that = this;

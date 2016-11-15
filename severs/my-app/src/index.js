@@ -8,6 +8,7 @@ import AntdTest from './Antd-test/AntdTest';
 import AntdStudy from './Antd-study/AntdStudy';
 import TableCard from './Antd-study/TableCard';
 import Todo from './Todo/index';
+import RouterStudy from './Router-study';
 import './index.css';
 
 
@@ -15,11 +16,12 @@ ReactDOM.render(
     <div>
         {/*<App/>*/}
         {/*<Todo/>*/}
-        <AntdTest/>
+        {/*<AntdTest/>*/}
         {/*<br/>*/}
         {/*<AntdStudy/>*/}
         {/*<br/>*/}
         {/*<TableCard/>*/}
+        <RouterStudy/>
     </div>,
     document.getElementById('root')
 );
