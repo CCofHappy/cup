@@ -72,11 +72,9 @@ var Content = React.createClass({
         )
     }
 });
-
 Card.TitleBar = TitleBar;
 Card.Title = Title;
 Card.ContentBar = ContentBar;
 Card.Content = Content;
-
 
 export default Card;

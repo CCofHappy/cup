@@ -16,7 +16,7 @@ ReactDOM.render(
     <div>
         {/*<App/>*/}
         {/*<Todo/>*/}
-        {/*<AntdTest/>*/}
+        <AntdTest/>
         {/*<br/>*/}
         {/*<AntdStudy/>*/}
         {/*<br/>*/}

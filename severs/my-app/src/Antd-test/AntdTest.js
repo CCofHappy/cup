@@ -33,7 +33,8 @@ var ReactTest = React.createClass({
         return{
             loading:true,
             items:[],
-            modal:false,
+            showAdd:false,
+            showChange:false,
 
             name:'',
             age:'',
@@ -41,7 +42,6 @@ var ReactTest = React.createClass({
             single:null,
 
             selectedRowKeys:[],
-
         }
     },
     render:function () {
@@ -58,7 +58,7 @@ var ReactTest = React.createClass({
                 <div className="table-content">
                     <br/>
                     <Button icon="plus" type="primary" onClick={this.handleAdd}>增加</Button>&nbsp;
-                    <Button icon="edit" type="ghost">编辑</Button>&nbsp;
+                    <Button icon="edit" onClick={this.handleList} disabled={!del} type="ghost">编辑</Button>&nbsp;
                     <Button icon="delete" onClick={this.handleDelete} disabled={!del}>删除</Button>&nbsp;
                     <br/><br/>
                     <Table
@@ -69,10 +69,60 @@ var ReactTest = React.createClass({
                     />
                 </div>
                 <Modal
-                    visible={this.state.modal}
-                    onCancel={(e)=>this.setState({modal:false})}
+                    visible={this.state.showAdd}
+                    onCancel={(e)=>this.setState({showAdd:false})}
                     onOk={this.handleSave}
                     title='增加信息'
+                >
+                    <Form>
+                        <FormItem
+                            label='姓名'
+                            labelCol={{span:3}}
+                            wrapperCol={{span:19}}
+                        >
+                            <Input value={this.state.name} onChange={(e)=>this.handleChange(e.target.value,'name')}/>
+                        </FormItem>
+                        <FormItem
+                            label='年龄'
+                            labelCol={{span:3}}
+                            wrapperCol={{span:19}}
+                        >
+                            <Input value={this.state.age} onChange={(e)=>this.handleChange(e.target.value,'age')}/>
+                        </FormItem>
+                        <Row>
+                            <Col span={12}>
+                                <FormItem
+                                    label='性别'
+                                    labelCol={{span:6}}
+                                    wrapperCol={{span:12}}
+                                >
+                                    <RadioGroup value={this.state.sex} onChange={(e)=>this.handleChange(e.target.value,'sex')}>
+                                        <RadioButton key="boy" value={'boy'}>男</RadioButton>
+                                        <RadioButton key="girl" value={'girl'}>女</RadioButton>
+                                    </RadioGroup>
+                                </FormItem>
+                            </Col>
+                            <Col span={12}>
+                                <FormItem
+                                    label='单身'
+                                    labelCol={{span:6}}
+                                    wrapperCol={{span:16}}
+                                >
+                                    <RadioGroup value={this.state.single} onChange={(e)=>this.handleChange(e.target.value,'single')}>
+                                        <RadioButton key="single" value={true}>单身狗</RadioButton>
+                                        <RadioButton key="no_single" value={false}>恩爱狗</RadioButton>
+                                    </RadioGroup>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Modal>
+
+                <Modal
+                    visible={this.state.showChange}
+                    onCancel={(e)=>this.setState({showChange:false})}
+                    title='编辑信息'
+                    onOk={this.handleEdit}
                 >
                     <Form>
                         <FormItem
@@ -121,8 +171,38 @@ var ReactTest = React.createClass({
         )
     },
     onSelectChange(selectedRowKeys){
-        console.log(selectedRowKeys);
         this.setState({selectedRowKeys:selectedRowKeys});
+        var items = this.state.items;
+        for(var i=0;i<items.length;i++){
+            if (items[i].id == selectedRowKeys){
+                this.setState({
+                    name:items[i].name,
+                    age:items[i].age,
+                    sex:items[i].sex,
+                    single:items[i].single
+                })
+            }
+        }
+    },
+    handleEdit(){
+        var that = this;
+        var id = this.state.selectedRowKeys;
+        var obj = {
+            name:this.state.name,
+            age:this.state.age,
+            sex:this.state.sex,
+            single:this.state.single,
+        };
+        var editRequest= api + id + '/';
+        request
+            .patch(editRequest)
+            .send(obj)
+            .end(function (err,res) {
+                that.setState({
+                    showChange:false
+                });
+                message.success('编辑成功！');
+            });
     },
     handleDelete(){
         var that = this;
@@ -130,13 +210,22 @@ var ReactTest = React.createClass({
             title:'删除信息',
             content:'你确定删除这条信息吗？该操作不可逆，请小心使用',
             onOk:function () {
-                message.success('成功删除一条信息');
                 var id = that.state.selectedRowKeys;
-                var deleteRequest = api + id;
+                var deleteRequest = api + id +"/";
                 request
                     .delete(deleteRequest)
                     .end(function (err,res) {
-                        console.log(res.body);
+                        var items = [];
+                        var student = that.state.items;
+                        for (var i=0;i<student.length;i++){
+                            if(student[i].id != id){
+                                items.push(student[i])
+                            }
+                        }
+                        that.setState({
+                            items:items
+                        });
+                        message.success('成功删除！');
                     });
             }
         })
@@ -153,9 +242,8 @@ var ReactTest = React.createClass({
             .post(api)
             .send(data)
             .end(function (err,res) {
-                console.log(res.body);
                 that.setState({
-                    modal:false
+                    showAdd:false
                 });
                 message.success('提交成功！');
             });
@@ -182,7 +270,12 @@ var ReactTest = React.createClass({
     },
     handleAdd(){
         this.setState({
-            modal:true
+            showAdd:true
+        })
+    },
+    handleList(){
+        this.setState({
+            showChange:true
         })
     }
 

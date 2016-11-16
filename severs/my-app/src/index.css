@@ -10,3 +10,6 @@ body {
 .todo-mvc button.action{background: #5DACD9;color:#fff;border: 1px solid #5DACD9;}
 .todo-mvc p{margin: 0;margin-left:50px; }
 .todo-mvc .nav button{border-radius: 0;margin: 0;}
+
+.all-nav{position: absolute;}
+.content-box{margin-top: 20px;margin-left: 280px;}
