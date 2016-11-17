@@ -67,8 +67,8 @@ const Content = React.createClass({
         return(
             <div className="content-box">
             <Router history={hashHistory}>
-                <Route path='/'>
-                    <IndexRoute component={Index}/>
+                <Route path='/' component={Index}>
+                    <IndexRoute component={StudentList}/>
                     <Route path='AntdTest' component={AntdTest}/>
                     <Route path='AntdStudy' component={AntdStudy}/>
                     <Route path='StudentList' component={StudentList}/>
@@ -112,10 +112,10 @@ const AntdTest = React.createClass({
 const Index = React.createClass({
     render:function(){
         return(
-            <div>
-                <Sider />
-                {this.props.children}
+            <div className="index">
+                <Sider history={hashHistory}/>
                 Index
+                {this.props.children}
             </div>
         )
     }
@@ -126,8 +126,8 @@ const RouterStudy = React.createClass({
         return(
             <div>
                 <h3>react-router</h3>
-
                 <Content/>
+
             </div>
         )
     }

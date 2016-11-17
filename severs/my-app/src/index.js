@@ -12,16 +12,20 @@ import RouterStudy from './Router-study';
 import './index.css';
 
 
+import CupCloud from './Cup-cloud'
+
+
 ReactDOM.render(
     <div>
         {/*<App/>*/}
         {/*<Todo/>*/}
-        <AntdTest/>
+        {/*<AntdTest/>*/}
         {/*<br/>*/}
         {/*<AntdStudy/>*/}
         {/*<br/>*/}
         {/*<TableCard/>*/}
-        <RouterStudy/>
+        {/*<RouterStudy/>*/}
+        <CupCloud/>
     </div>,
     document.getElementById('root')
 );
