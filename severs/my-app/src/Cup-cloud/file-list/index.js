@@ -2,20 +2,37 @@
  * Created by Administrator on 2016/11/17.
  */
 import React from 'react';
+import {Icon} from 'antd';
+import './index.css';
+
+var FilesItem = React.createClass({
+    render:function () {
+        const {name,onEnter,path} = this.props;
+        return(
+           <li className="file-item" onClick={(e)=>onEnter(path)}>
+               <Icon type='folder'/>
+               <span>{name}</span>
+           </li>
+        )
+    }
+});
 
 var FileList = React.createClass({
     render:function () {
-        var nodes = this.props.file.map(function (obj) {
+        const {path,file,onEnter} = this.props;
+        var nodes = file.map(function (obj) {
            return(
-               <li>
-                   <span>{obj.name}</span>
-               </li>
+               <FilesItem
+                   name={obj.name}
+                   path={obj.path}
+                   key={path+obj.name}
+                   onEnter={onEnter}
+               />
            )
         });
         return(
             <div>
-                <h3>file-list</h3>
-                <ul>
+                <ul className="file-list">
                     {nodes}
                 </ul>
             </div>

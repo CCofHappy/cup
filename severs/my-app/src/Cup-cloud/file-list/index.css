@@ -1,0 +1,35 @@
+.file-list{
+    padding: 20px;
+    overflow: hidden;
+}
+
+.file-item{
+    float: left;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.file-item:hover{
+    background: #53d2de;
+    color: #fff;
+}
+
+.file-item i{
+    display: block;
+    margin: auto;
+    line-height: 50px;
+    font-size: 40px;
+}
+
+.file-item span{
+    display: block;
+    text-align: center;
+    line-height: 25px;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 110px;
+    padding: 0 10px;
+}
