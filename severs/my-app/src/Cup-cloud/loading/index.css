@@ -1,0 +1,15 @@
+.loading{
+    margin-top: 50px;
+}
+
+.loading i{
+    font-size: 50px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.loading p{
+    text-align: center;
+    font-size: 14px;
+}

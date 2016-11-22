@@ -4,6 +4,7 @@
 import React from 'react';
 import {Icon} from 'antd';
 import './index.css';
+import Loading from '../loading';
 
 var FilesItem = React.createClass({
     render:function () {
@@ -19,7 +20,7 @@ var FilesItem = React.createClass({
 
 var FileList = React.createClass({
     render:function () {
-        const {path,file,onEnter} = this.props;
+        const {path,file,onEnter,loading,load} = this.props;
         var nodes = file.map(function (obj) {
            return(
                <FilesItem
@@ -30,9 +31,13 @@ var FileList = React.createClass({
                />
            )
         });
+
         return(
             <div>
-                <ul className="file-list">
+                <div style={{display:loading?'block':'none'}}>
+                    <Loading/>
+                </div>
+                <ul className="file-list" style={{display:loading?'none':'block'}}>
                     {nodes}
                 </ul>
             </div>

@@ -5,16 +5,26 @@ import React from 'react';
 import {Table,Button,Modal,Input,Radio,Row,Col,message}from 'antd';
 import 'antd/dist/antd.css';
 import FileList from './file-list';
-import Loading from './loading'
 import {getFileLisr} from './api';
-import './index.css'
+import './index.css';
+import { Router, Route, hashHistory,IndexRoute,Redirect,Link,IndexLink} from 'react-router';
+
+var R = React.createClass({
+    render:function(){
+        return(
+            <Router history={hashHistory}>
+                <Route path='/' component={Cloud}/>
+            </Router>
+        )
+    }
+});
 
 var Cloud = React.createClass({
     getInitialState:function () {
         return{
             file:[],
             path:'',
-            loading:true
+            load:false
         }
     },
     render:function () {
@@ -22,10 +32,10 @@ var Cloud = React.createClass({
             <div>
                 <h3 className="cloud-title">杯具CLOUD</h3>
                 <FileList
-                    file = {this.state.file}
-                    path= {this.state.path}
+                    file={this.state.file}
+                    path={this.state.path}
                     onEnter={this.getFile}
-                    loading={this.state.loading}
+                    loading={this.state.load}
                 />
             </div>
         )
@@ -35,13 +45,17 @@ var Cloud = React.createClass({
         this.getFile('/')
     },
     getFile:function (e) {
+        hashHistory.push(e);
         var that = this;
+        that.setState({
+            load:true
+        });
         getFileLisr(e,function (res) {
             console.log(res);
             that.setState({
                 file:res.file,
                 path:res.path,
-                loading:false
+                load:false
             })
         },function (err) {
             console.log('err',err)
@@ -50,4 +64,4 @@ var Cloud = React.createClass({
 });
 
 
-export default Cloud;
+export default R;
