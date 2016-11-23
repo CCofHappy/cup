@@ -39,7 +39,6 @@ var Cloud = React.createClass({
                 />
             </div>
         )
-
     },
     componentDidMount:function () {
         this.getFile('/')
@@ -62,6 +61,5 @@ var Cloud = React.createClass({
         });
     }
 });
-
 
 export default R;
