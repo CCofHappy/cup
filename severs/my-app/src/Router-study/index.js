@@ -25,13 +25,6 @@ const Sider = React.createClass({
             theme: value ? 'dark' : 'light'
         })
     },
-    handleClick(e) {
-        console.log('click ', e);
-        this.setState({
-            current: e.key,
-        });
-        hashHistory.push(e.key);
-    },
     render() {
         return (
             <div className="all-nav">
@@ -44,17 +37,12 @@ const Sider = React.createClass({
                     defaultOpenKeys={['sub1']}
                     mode={this.state.mode}
                     theme={this.state.theme}
-                    onClick={this.handleClick}
                 >
                     <SubMenu key="sub1" title={<span><Icon type="appstore" /><span>杯具桑react的学习</span></span>}>
-                        <MenuItemGroup title="学习一">
-                            <Menu.Item key="AntdStudy"><Link to="AntdStudy">Antd-Study</Link></Menu.Item>
-                            <Menu.Item key="AntdTest"><Link to="AntdTest">Antd-Test</Link></Menu.Item>
-                        </MenuItemGroup>
-                        <MenuItemGroup title="学习二">
-                            <Menu.Item key="StudentList">Student-List</Menu.Item>
-                            <Menu.Item key="4">Option 4</Menu.Item>
-                        </MenuItemGroup>
+                        <Menu.Item><Link activeStyle={{color:'#2db7f5'}} to="Student">Student</Link></Menu.Item>
+                        <Menu.Item><Link activeStyle={{color:'#2db7f5'}} to="Study">Antd-Study</Link></Menu.Item>
+                        <Menu.Item><Link activeStyle={{color:'#2db7f5'}} to="Test">Antd-Test</Link></Menu.Item>
+                        <Menu.Item><Link activeStyle={{color:'#2db7f5'}} to="List">Student-List</Link></Menu.Item>
                     </SubMenu>
                 </Menu>
             </div>
@@ -68,12 +56,23 @@ const Content = React.createClass({
             <div className="content-box">
             <Router history={hashHistory}>
                 <Route path='/' component={Index}>
-                    <IndexRoute component={StudentList}/>
-                    <Route path='AntdTest' component={AntdTest}/>
-                    <Route path='AntdStudy' component={AntdStudy}/>
-                    <Route path='StudentList' component={StudentList}/>
+                    <IndexRoute component={Student}/>
+                    <Route path='/Student' component={Student}/>
+                    <Route path='/Test' component={AntdTest}/>
+                    <Route path='/Study' component={AntdStudy}/>
+                    <Route path='/List' component={StudentList}/>
                 </Route>
             </Router>
+            </div>
+        )
+    }
+});
+
+const Student = React.createClass({
+    render:function(){
+        return(
+            <div>
+                Student
             </div>
         )
     }
@@ -113,7 +112,7 @@ const Index = React.createClass({
     render:function(){
         return(
             <div className="index">
-                <Sider history={hashHistory}/>
+                <Sider/>
                 Index
                 {this.props.children}
             </div>
@@ -127,7 +126,6 @@ const RouterStudy = React.createClass({
             <div>
                 <h3>react-router</h3>
                 <Content/>
-
             </div>
         )
     }

@@ -13,7 +13,7 @@ var R = React.createClass({
     render:function(){
         return(
             <Router history={hashHistory}>
-                <Route path='/' component={Cloud}/>
+                <Route path='*' component={Cloud}/>
             </Router>
         )
     }
@@ -34,17 +34,12 @@ var Cloud = React.createClass({
                 <FileList
                     file={this.state.file}
                     path={this.state.path}
-                    onEnter={this.getFile}
                     loading={this.state.load}
                 />
             </div>
         )
     },
-    componentDidMount:function () {
-        this.getFile('/')
-    },
     getFile:function (e) {
-        hashHistory.push(e);
         var that = this;
         that.setState({
             load:true
@@ -59,6 +54,16 @@ var Cloud = React.createClass({
         },function (err) {
             console.log('err',err)
         });
+    },
+    componentDidMount:function () {
+        const {params} = this.props;
+        const {splat} = params;
+        this.getFile(splat);
+    },
+    componentWillReceiveProps(nextProps){
+        const {params} = nextProps;
+        const {splat} = params;
+        this.getFile(splat);
     }
 });
 

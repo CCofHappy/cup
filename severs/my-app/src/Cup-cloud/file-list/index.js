@@ -5,13 +5,37 @@ import React from 'react';
 import {Icon} from 'antd';
 import './index.css';
 import Loading from '../loading';
+import {hashHistory} from 'react-router';
+
+function getIcon(ext,isFolder){
+    if (isFolder){
+        return 'folder'
+    }
+    switch (ext){
+        case '.html':
+        case '.css':
+        case '.js':
+            return 'code';
+        case '.jpg':
+        case '.png':
+        case '.gif':
+        case '.jpeg':
+            return 'picture';
+        case '.txt':
+            return 'file-text';
+        default:
+            return 'file-unknown';
+    }
+}
+
 
 var FilesItem = React.createClass({
     render:function () {
-        const {name,onEnter,path} = this.props;
+        const {name,path,ext,isFolder} = this.props;
+        const type = getIcon(ext,isFolder);
         return(
-           <li className="file-item" onClick={(e)=>onEnter(path)}>
-               <Icon type='folder'/>
+           <li className="file-item" onClick={(e)=>hashHistory.push(path)}>
+               <Icon type={type}/>
                <span>{name}</span>
            </li>
         )
@@ -27,6 +51,8 @@ var FileList = React.createClass({
                    name={obj.name}
                    path={obj.path}
                    key={path+obj.name}
+                   ext={obj.ext}
+                   isFolder={obj.isFolder}
                    onEnter={onEnter}
                />
            )
