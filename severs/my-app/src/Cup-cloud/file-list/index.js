@@ -7,6 +7,8 @@ import './index.css';
 import Loading from '../loading';
 import {hashHistory} from 'react-router';
 
+const host = 'http://101.200.129.112:9527/static/';
+
 function getIcon(ext,isFolder){
     if (isFolder){
         return 'folder'
@@ -28,23 +30,32 @@ function getIcon(ext,isFolder){
     }
 }
 
-
 var FilesItem = React.createClass({
     render:function () {
         const {name,path,ext,isFolder} = this.props;
         const type = getIcon(ext,isFolder);
         return(
-           <li className="file-item" onClick={(e)=>hashHistory.push(path)}>
+           <li className="file-item" onClick={this.handleClick}>
                <Icon type={type}/>
                <span>{name}</span>
            </li>
         )
+    },
+    handleClick:function () {
+        const {isFolder,path} = this.props;
+
+        if (isFolder){
+            hashHistory.push(path);
+        }else {
+            window.open(host+path);
+        }
+
     }
 });
 
 var FileList = React.createClass({
     render:function () {
-        const {path,file,onEnter,loading,load} = this.props;
+        const {path,file,onEnter,loading} = this.props;
         var nodes = file.map(function (obj) {
            return(
                <FilesItem

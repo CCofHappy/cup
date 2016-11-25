@@ -8,6 +8,7 @@ import FileList from './file-list';
 import {getFileLisr} from './api';
 import './index.css';
 import { Router, Route, hashHistory,IndexRoute,Redirect,Link,IndexLink} from 'react-router';
+import Nav from './nav';
 
 var R = React.createClass({
     render:function(){
@@ -23,7 +24,7 @@ var Cloud = React.createClass({
     getInitialState:function () {
         return{
             file:[],
-            path:'',
+            path:[],
             load:false
         }
     },
@@ -31,10 +32,11 @@ var Cloud = React.createClass({
         return(
             <div>
                 <h3 className="cloud-title">杯具CLOUD</h3>
+                <Nav path={this.state.path}/>
                 <FileList
                     file={this.state.file}
-                    path={this.state.path}
                     loading={this.state.load}
+                    path={this.state.path}
                 />
             </div>
         )
@@ -45,14 +47,14 @@ var Cloud = React.createClass({
             load:true
         });
         getFileLisr(e,function (res) {
-            console.log(res);
+            // console.log(res);
             that.setState({
                 file:res.file,
-                path:res.path,
+                path:res.path.split('/'),
                 load:false
             })
         },function (err) {
-            console.log('err',err)
+            // console.log('err',err)
         });
     },
     componentDidMount:function () {

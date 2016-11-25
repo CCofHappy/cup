@@ -4,3 +4,6 @@
     margin: 20px 0;
     font-family: '微软雅黑';
 }
+
+.nav-body{padding: 0px 20px;}
+.nav-body i{margin-right: 5px;}
