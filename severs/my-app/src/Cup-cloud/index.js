@@ -9,6 +9,7 @@ import {getFileLisr} from './api';
 import './index.css';
 import { Router, Route, hashHistory,IndexRoute,Redirect,Link,IndexLink} from 'react-router';
 import Nav from './nav';
+import Menu from './menu';
 
 var R = React.createClass({
     render:function(){
@@ -25,12 +26,20 @@ var Cloud = React.createClass({
         return{
             file:[],
             path:[],
-            load:false
+            load:false,
+            menu:{
+                x:0,
+                y:0,
+                display:false
+            }
         }
     },
     render:function () {
         return(
-            <div>
+            <div className="cloud-container"
+                 onContextMenu={(e)=>e.preventDefault()}
+                 onMouseDown={this.rightMouse}
+            >
                 <h3 className="cloud-title">杯具CLOUD</h3>
                 <Nav path={this.state.path}/>
                 <FileList
@@ -38,8 +47,30 @@ var Cloud = React.createClass({
                     loading={this.state.load}
                     path={this.state.path}
                 />
+                <Menu
+                    display={this.state.menu.display}
+                    x={this.state.menu.x}
+                    y={this.state.menu.y}
+                />
             </div>
         )
+    },
+    rightMouse:function (e) {
+        if(e.button == 2){
+            this.setState({
+                menu:{
+                    x:e.clientX ,
+                    y:e.clientY ,
+                    display:true
+                }
+            })
+        }else {
+            this.setState({
+                menu:{
+                    display:false
+                }
+            })
+        }
     },
     getFile:function (e) {
         var that = this;

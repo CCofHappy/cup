@@ -1,0 +1,23 @@
+.right-menu{
+    position: absolute;
+    background: #fff;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow:3px 3px 10px #666;
+}
+
+.right-menu li{
+    padding: 8px 40px;
+    border-bottom: 1px solid #999999;
+    cursor: pointer;
+}
+
+.right-menu li:hover{
+    background: #53d2de;
+    color: #fff;
+}
+
+.right-menu li:last-child{
+    border-bottom: none;
+}

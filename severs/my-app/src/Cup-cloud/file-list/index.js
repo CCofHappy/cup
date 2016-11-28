@@ -43,7 +43,6 @@ var FilesItem = React.createClass({
     },
     handleClick:function () {
         const {isFolder,path} = this.props;
-
         if (isFolder){
             hashHistory.push(path);
         }else {
