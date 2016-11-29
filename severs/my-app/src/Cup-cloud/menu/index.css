@@ -1,4 +1,5 @@
 .right-menu{
+    width: 140px;
     position: absolute;
     background: #fff;
     border: 1px solid #999999;
@@ -8,7 +9,8 @@
 }
 
 .right-menu li{
-    padding: 8px 40px;
+    padding:8px 0px;
+    text-align:center;
     border-bottom: 1px solid #999999;
     cursor: pointer;
 }

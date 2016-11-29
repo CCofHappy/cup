@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/11/17.
  */
 import React from 'react';
-import {Icon} from 'antd';
+import {Icon,Input} from 'antd';
 import './index.css';
 import Loading from '../loading';
 import {hashHistory} from 'react-router';
@@ -32,14 +32,28 @@ function getIcon(ext,isFolder){
 
 var FilesItem = React.createClass({
     render:function () {
-        const {name,path,ext,isFolder} = this.props;
+        const {name,ext,isFolder,actName,nameValue} = this.props;
         const type = getIcon(ext,isFolder);
         return(
-           <li className="file-item" onClick={this.handleClick}>
+           <li
+               className="file-item"
+               onDoubleClick={this.handleClick}
+               onContextMenu={this.mouseDown}
+           >
                <Icon type={type}/>
-               <span>{name}</span>
+               <span style={{display:actName==name?'none':'block'}}>{name}</span>
+               <Input
+                   style={{display:actName==name?'block':'none'}}
+                   onDoubleClick={this.stopMp}
+                   value={nameValue}
+                   onChange={this.reName}
+               />
            </li>
         )
+    },
+    stopMp:function (e) {
+        e.preventDefault();
+        e.stopPropagation();
     },
     handleClick:function () {
         const {isFolder,path} = this.props;
@@ -48,13 +62,20 @@ var FilesItem = React.createClass({
         }else {
             window.open(host+path);
         }
-
+    },
+    mouseDown(){
+        const {name,onActive} = this.props;
+        onActive(name)
+    },
+    reName(e){
+        const {reName} = this.props;
+        reName(e.target.value);
     }
 });
 
 var FileList = React.createClass({
     render:function () {
-        const {path,file,onEnter,loading} = this.props;
+        const {path,file,onEnter,loading,onActive,active,actName,reName,nameValue} = this.props;
         var nodes = file.map(function (obj) {
            return(
                <FilesItem
@@ -64,10 +85,14 @@ var FileList = React.createClass({
                    ext={obj.ext}
                    isFolder={obj.isFolder}
                    onEnter={onEnter}
+                   onActive={onActive}
+                   active={active}
+                   actName={actName}
+                   reName={reName}
+                   nameValue={nameValue}
                />
            )
         });
-
         return(
             <div>
                 <div style={{display:loading?'block':'none'}}>

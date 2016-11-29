@@ -31,7 +31,10 @@ var Cloud = React.createClass({
                 x:0,
                 y:0,
                 display:false
-            }
+            },
+            active:'',
+            actNeme:'',
+            nameValue:'',
         }
     },
     render:function () {
@@ -40,15 +43,22 @@ var Cloud = React.createClass({
                  onContextMenu={(e)=>e.preventDefault()}
                  onMouseDown={this.rightMouse}
             >
-                <h3 className="cloud-title">杯具CLOUD</h3>
+                <h3 className="cloud-title" >杯具CLOUD</h3>
                 <Nav path={this.state.path}/>
                 <FileList
                     file={this.state.file}
                     loading={this.state.load}
                     path={this.state.path}
+                    onActive={(active)=>this.setState({active:active,nameValue:active})}
+                    active={this.state.active}
+                    actName={this.state.actNeme}
+                    reName={(reName)=>this.setState({nameValue:reName})}
+                    nameValue={this.state.nameValue}
                 />
                 <Menu
                     display={this.state.menu.display}
+                    active={this.state.active}
+                    onRename={(active)=>this.setState({actNeme:active})}
                     x={this.state.menu.x}
                     y={this.state.menu.y}
                 />
