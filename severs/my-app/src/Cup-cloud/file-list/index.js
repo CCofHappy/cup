@@ -45,6 +45,7 @@ var FilesItem = React.createClass({
                <Input
                    style={{display:actName==name?'block':'none'}}
                    onDoubleClick={this.stopMp}
+                   onMouseDown={this.stopMp}
                    value={nameValue}
                    onChange={this.reName}
                />

@@ -58,7 +58,9 @@ var Cloud = React.createClass({
                 <Menu
                     display={this.state.menu.display}
                     active={this.state.active}
-                    onRename={(active)=>this.setState({actNeme:active})}
+                    onRename={(active)=>this.setState({actNeme:active,menu:{
+                        display:false
+                    }})}
                     x={this.state.menu.x}
                     y={this.state.menu.y}
                 />
@@ -76,9 +78,11 @@ var Cloud = React.createClass({
             })
         }else {
             this.setState({
+                actNeme:'',
                 menu:{
                     display:false
                 }
+
             })
         }
     },
