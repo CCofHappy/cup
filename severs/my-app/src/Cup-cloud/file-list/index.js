@@ -32,28 +32,30 @@ function getIcon(ext,isFolder){
 
 var FilesItem = React.createClass({
     render:function () {
-        const {name,ext,isFolder,actName,nameValue} = this.props;
+        const {name,ext,isFolder,actName,nameValue,reName,onActive} = this.props;
         const type = getIcon(ext,isFolder);
         return(
            <li
                className="file-item"
                onDoubleClick={this.handleClick}
-               onContextMenu={this.mouseDown}
+               onContextMenu={(e)=>onActive(name)}
+
            >
                <Icon type={type}/>
                <span style={{display:actName==name?'none':'block'}}>{name}</span>
                <Input
                    style={{display:actName==name?'block':'none'}}
                    onDoubleClick={this.stopMp}
-                   onMouseDown={this.stopMp}
                    value={nameValue}
-                   onChange={this.reName}
+                   onChange={
+                       (e)=>reName(e.target.value)
+                   }
+                   onMouseDown={this.stopMp}
                />
            </li>
         )
     },
     stopMp:function (e) {
-        e.preventDefault();
         e.stopPropagation();
     },
     handleClick:function () {
@@ -64,14 +66,10 @@ var FilesItem = React.createClass({
             window.open(host+path);
         }
     },
-    mouseDown(){
-        const {name,onActive} = this.props;
-        onActive(name)
-    },
-    reName(e){
-        const {reName} = this.props;
-        reName(e.target.value);
-    }
+    // mouseDown(){
+    //     const {name,onActive} = this.props;
+    //     onActive(name)
+    // }
 });
 
 var FileList = React.createClass({

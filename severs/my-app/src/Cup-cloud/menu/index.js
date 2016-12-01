@@ -6,6 +6,7 @@ import './index.css'
 
 var menu = React.createClass({
     render:function(){
+        const {onNew,active,onRename,onMenu,}=this.props;
         return(
             <ul className="right-menu"
                 style={{
@@ -15,23 +16,26 @@ var menu = React.createClass({
                 }}
                 onMouseDown={this.stopMp}
             >
-                <li className="allow">新建文件夹</li>
                 <li className="allow"
-                    onClick={this.onRename}
+                    onClick={(e)=>onMenu("new")}
+                >新建文件夹</li>
+                <li className="allow"
+                    onClick={(e)=>onRename(active)}
                 >重命名</li>
-                <li className="allow">复制</li>
-                <li className="allow">黏贴</li>
-                <li className="allow">删除</li>
+                <li className="allow"
+                    onClick={(e)=>onMenu("copy")}
+                >复制</li>
+                <li className="allow"
+                    onClick={(e)=>onMenu("paste")}
+                >黏贴</li>
+                <li className="allow"
+                    onClick={(e)=>onMenu("delete")}
+                >删除</li>
             </ul>
         )
     },
     stopMp:function (e) {
-        e.preventDefault();
         e.stopPropagation();
-    },
-    onRename:function () {
-        const {active,onRename} = this.props;
-        onRename(active);
     }
 });
 

@@ -10,6 +10,7 @@ import './index.css';
 import { Router, Route, hashHistory,IndexRoute,Redirect,Link,IndexLink} from 'react-router';
 import Nav from './nav';
 import Menu from './menu';
+import Action from './action';
 
 var R = React.createClass({
     render:function(){
@@ -35,6 +36,9 @@ var Cloud = React.createClass({
             active:'',
             actNeme:'',
             nameValue:'',
+            actionType:'',
+            newValue:'',
+            showAction:false
         }
     },
     render:function () {
@@ -49,7 +53,7 @@ var Cloud = React.createClass({
                     file={this.state.file}
                     loading={this.state.load}
                     path={this.state.path}
-                    onActive={(active)=>this.setState({active:active,nameValue:active})}
+                    onActive={(e)=>this.setState({active:e,nameValue:e})}
                     active={this.state.active}
                     actName={this.state.actNeme}
                     reName={(reName)=>this.setState({nameValue:reName})}
@@ -58,14 +62,37 @@ var Cloud = React.createClass({
                 <Menu
                     display={this.state.menu.display}
                     active={this.state.active}
-                    onRename={(active)=>this.setState({actNeme:active,menu:{
-                        display:false
-                    }})}
                     x={this.state.menu.x}
                     y={this.state.menu.y}
+                    onRename={(e)=>this.setState({
+                        actNeme:e,
+                        menu:{display:false}
+                    })}
+                    onMenu={this.onMenu}
+                />
+                <Action
+                    visible={this.state.actionType}
+                    type={this.state.actionType}
+                    active={this.state.active}
+                    newValue={this.state.newValue}
+                    showAction={this.state.showAction}
+                    onCancel={(e)=>this.setState({showAction:false,newValue:''})}
+                    onChange={(value)=>this.setState({newValue:value})}
                 />
             </div>
         )
+    },
+    onMenu(e){
+        this.setState({
+            showAction:true,
+            menu:{display:false},
+            actionType:e
+        });
+        if (e =='new'){
+            this.setState({
+                newValue:'新建文件夹'
+            })
+        }
     },
     rightMouse:function (e) {
         if(e.button == 2){
