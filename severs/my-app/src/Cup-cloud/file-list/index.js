@@ -65,11 +65,7 @@ var FilesItem = React.createClass({
         }else {
             window.open(host+path);
         }
-    },
-    // mouseDown(){
-    //     const {name,onActive} = this.props;
-    //     onActive(name)
-    // }
+    }
 });
 
 var FileList = React.createClass({

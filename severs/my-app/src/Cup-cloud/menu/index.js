@@ -21,6 +21,7 @@ var menu = React.createClass({
                 >新建文件夹</li>
                 <li className="allow"
                     onClick={(e)=>onRename(active)}
+                    style={{display:active?'block':'none'}}
                 >重命名</li>
                 <li className="allow"
                     onClick={(e)=>onMenu("copy")}

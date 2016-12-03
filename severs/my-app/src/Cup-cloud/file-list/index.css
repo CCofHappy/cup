@@ -33,3 +33,7 @@
     width: 110px;
     padding: 0 10px;
 }
+
+.file-item span input{
+    text-align: center;
+}

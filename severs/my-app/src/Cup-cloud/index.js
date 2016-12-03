@@ -5,7 +5,7 @@ import React from 'react';
 import {Table,Button,Modal,Input,Radio,Row,Col,message}from 'antd';
 import 'antd/dist/antd.css';
 import FileList from './file-list';
-import {getFileLisr} from './api';
+import {getFileLisr,rename,newFolder} from './api';
 import './index.css';
 import { Router, Route, hashHistory,IndexRoute,Redirect,Link,IndexLink} from 'react-router';
 import Nav from './nav';
@@ -78,6 +78,8 @@ var Cloud = React.createClass({
                     showAction={this.state.showAction}
                     onCancel={(e)=>this.setState({showAction:false,newValue:''})}
                     onChange={(value)=>this.setState({newValue:value})}
+                    onNewFolder={this.handleNewFolder}
+                    file={this.state.file}
                 />
             </div>
         )
@@ -94,6 +96,25 @@ var Cloud = React.createClass({
             })
         }
     },
+    handleNewFolder(name){
+        var that = this;
+        var path = this.state.path.join('/');
+        newFolder({
+            name:name,
+            path:path
+        },function (res) {
+            var file = that.state.file;
+            file.push(res);
+            that.setState({
+                file:file,
+                showAction:false
+            });
+            message.success('成功新建：'+name+'!');
+
+        },function (err) {
+
+        });
+    },
     rightMouse:function (e) {
         if(e.button == 2){
             this.setState({
@@ -101,16 +122,23 @@ var Cloud = React.createClass({
                     x:e.clientX ,
                     y:e.clientY ,
                     display:true
-                }
+                },
+                active:''
             })
         }else {
             this.setState({
-                actNeme:'',
+                active:'',
                 menu:{
                     display:false
                 }
+            });
 
-            })
+            if (this.state.actNeme){
+                console.log(this.state.actNeme);
+                this.setState({
+                    actNeme:''
+                });
+            }
         }
     },
     getFile:function (e) {
@@ -119,14 +147,12 @@ var Cloud = React.createClass({
             load:true
         });
         getFileLisr(e,function (res) {
-            // console.log(res);
             that.setState({
                 file:res.file,
                 path:res.path.split('/'),
                 load:false
             })
         },function (err) {
-            // console.log('err',err)
         });
     },
     componentDidMount:function () {
