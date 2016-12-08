@@ -5,7 +5,7 @@ import React from 'react';
 import {Table,Button,Modal,Input,Radio,Row,Col,message}from 'antd';
 import 'antd/dist/antd.css';
 import FileList from './file-list';
-import {getFileLisr,rename,newFolder} from './api';
+import {getFileList,rename,newFolder,remove} from './api';
 import './index.css';
 import { Router, Route, hashHistory,IndexRoute,Redirect,Link,IndexLink} from 'react-router';
 import Nav from './nav';
@@ -34,7 +34,7 @@ var Cloud = React.createClass({
                 display:false
             },
             active:'',
-            actNeme:'',
+            actName:'',
             nameValue:'',
             actionType:'',
             newValue:'',
@@ -53,9 +53,9 @@ var Cloud = React.createClass({
                     file={this.state.file}
                     loading={this.state.load}
                     path={this.state.path}
-                    onActive={(e)=>this.setState({active:e,nameValue:e})}
+                    onActive={(e)=>this.setState({active:e})}
                     active={this.state.active}
-                    actName={this.state.actNeme}
+                    actName={this.state.actName}
                     reName={(reName)=>this.setState({nameValue:reName})}
                     nameValue={this.state.nameValue}
                 />
@@ -65,7 +65,8 @@ var Cloud = React.createClass({
                     x={this.state.menu.x}
                     y={this.state.menu.y}
                     onRename={(e)=>this.setState({
-                        actNeme:e,
+                        actName:e,
+                        nameValue:e,
                         menu:{display:false}
                     })}
                     onMenu={this.onMenu}
@@ -79,6 +80,7 @@ var Cloud = React.createClass({
                     onCancel={(e)=>this.setState({showAction:false,newValue:''})}
                     onChange={(value)=>this.setState({newValue:value})}
                     onNewFolder={this.handleNewFolder}
+                    onRemoveFolder={this.handleRemoveFolder}
                     file={this.state.file}
                 />
             </div>
@@ -96,6 +98,21 @@ var Cloud = React.createClass({
             })
         }
     },
+    handleRemoveFolder(){
+        var that = this;
+        var path = this.state.path.join('/') +'/'+ this.state.active;
+        var query = {
+            name:this.state.active,
+            path:path
+        };
+        remove(query,function (res) {
+            that.setState({
+                showAction:false
+            });
+            message.success('成功删除'+name+'!');
+        },function (err) {
+        })
+    },
     handleNewFolder(name){
         var that = this;
         var path = this.state.path.join('/');
@@ -110,13 +127,60 @@ var Cloud = React.createClass({
                 showAction:false
             });
             message.success('成功新建：'+name+'!');
-
         },function (err) {
-
         });
+    },
+    handleRename(name){
+        if (name==this.state.actName){
+            this.setState({
+            actName:'',
+            nameValue:''
+            })
+        }else{
+            var ok = true,file =this.state.file;
+            for (var i=0 ;i<file.length;i++){
+                if (file[i].name == name){
+                    ok = false;
+                }
+            }
+            if(ok){
+                var that = this;
+                var path = this.state.path.join('/') +'/'+ this.state.actName;
+                var query = {
+                    name:name,
+                    path:path
+                };
+                rename(query,function (res) {
+                    var file = that.state.file;
+                    var json = [];
+                    file.map(function (obj) {
+                        if (obj.name == that.state.actName){
+                            json.push(res);
+                        }else {
+                            json.push(obj)
+                        }
+                    });
+                    that.setState({
+                        file:json,
+                        actName:'',
+                        nameValue:'',
+                    });
+                    message.success('成功重命名！');
+                },function (err) {
+                })
+            }else {
+                message.error('文件名字重复！');
+            }
+        }
     },
     rightMouse:function (e) {
         if(e.button == 2){
+            if (this.state.actName){
+                this.setState({
+                    actName:'',
+                    nameValue:''
+                })
+            }
             this.setState({
                 menu:{
                     x:e.clientX ,
@@ -132,13 +196,10 @@ var Cloud = React.createClass({
                     display:false
                 }
             });
-
-            if (this.state.actNeme){
-                console.log(this.state.actNeme);
-                this.setState({
-                    actNeme:''
-                });
+            if (this.state.actName){
+                this.handleRename(this.state.nameValue);
             }
+
         }
     },
     getFile:function (e) {
@@ -146,7 +207,7 @@ var Cloud = React.createClass({
         that.setState({
             load:true
         });
-        getFileLisr(e,function (res) {
+        getFileList(e,function (res) {
             that.setState({
                 file:res.file,
                 path:res.path.split('/'),

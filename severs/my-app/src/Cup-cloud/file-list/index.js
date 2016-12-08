@@ -39,7 +39,6 @@ var FilesItem = React.createClass({
                className="file-item"
                onDoubleClick={this.handleClick}
                onContextMenu={(e)=>onActive(name)}
-
            >
                <Icon type={type}/>
                <span style={{display:actName==name?'none':'block'}}>{name}</span>

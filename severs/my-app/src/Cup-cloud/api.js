@@ -7,8 +7,9 @@ const host = 'http://101.200.129.112:9527/';
 const GET_FILE = host + 'file/get/';
 const RENAME_FILE = host + 'file/rename/';
 const NEW_FOLDER = host + 'file/mkdir/';
+const REMOVE_FOLDER = host + 'file/remove';
 
-export function getFileLisr(path,successCB,errorCB) {
+export function getFileList(path,successCB,errorCB) {
     request
         .get(GET_FILE)
         .query({
@@ -37,5 +38,15 @@ export function newFolder(query,successCb,errorCb) {
         .end(function(err,res){
             if(err){return errorCb(err)}
             successCb(res.body);
+        })
+}
+
+export function remove(query,successCb,errorCb) {
+    request
+        .get(REMOVE_FOLDER)
+        .query(query)
+        .end(function (err,res) {
+            if (err){return errorCb}
+            successCb(res.body)
         })
 }

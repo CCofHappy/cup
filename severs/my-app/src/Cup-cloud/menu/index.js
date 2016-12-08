@@ -6,7 +6,7 @@ import './index.css'
 
 var menu = React.createClass({
     render:function(){
-        const {onNew,active,onRename,onMenu,}=this.props;
+        const {active,onRename,onMenu,}=this.props;
         return(
             <ul className="right-menu"
                 style={{
@@ -25,12 +25,15 @@ var menu = React.createClass({
                 >重命名</li>
                 <li className="allow"
                     onClick={(e)=>onMenu("copy")}
+                    style={{display:active?'block':'none'}}
                 >复制</li>
                 <li className="allow"
                     onClick={(e)=>onMenu("paste")}
+                    style={{display:active?'block':'none'}}
                 >黏贴</li>
                 <li className="allow"
                     onClick={(e)=>onMenu("delete")}
+                    style={{display:active?'block':'none'}}
                 >删除</li>
             </ul>
         )
