@@ -32,11 +32,11 @@ function getIcon(ext,isFolder){
 
 var FilesItem = React.createClass({
     render:function () {
-        const {name,ext,isFolder,actName,nameValue,reName,onActive} = this.props;
+        const {name,ext,isFolder,actName,nameValue,reName,onActive,active} = this.props;
         const type = getIcon(ext,isFolder);
         return(
            <li
-               className="file-item"
+               className={active==name?'file-item active':'file-item'}
                onDoubleClick={this.handleClick}
                onContextMenu={(e)=>onActive(name)}
            >

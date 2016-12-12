@@ -38,7 +38,8 @@ var Cloud = React.createClass({
             nameValue:'',
             actionType:'',
             newValue:'',
-            showAction:false
+            showAction:false,
+            copyItem:{},
         }
     },
     render:function () {
@@ -62,6 +63,7 @@ var Cloud = React.createClass({
                 <Menu
                     display={this.state.menu.display}
                     active={this.state.active}
+                    copyItem={this.state.copyItem}
                     x={this.state.menu.x}
                     y={this.state.menu.y}
                     onRename={(e)=>this.setState({
@@ -72,15 +74,13 @@ var Cloud = React.createClass({
                     onMenu={this.onMenu}
                 />
                 <Action
-                    visible={this.state.actionType}
                     type={this.state.actionType}
                     active={this.state.active}
                     newValue={this.state.newValue}
                     showAction={this.state.showAction}
                     onCancel={(e)=>this.setState({showAction:false,newValue:''})}
                     onChange={(value)=>this.setState({newValue:value})}
-                    onNewFolder={this.handleNewFolder}
-                    onRemoveFolder={this.handleRemoveFolder}
+                    handleAction={this.handleAction}
                     file={this.state.file}
                 />
             </div>
@@ -88,14 +88,74 @@ var Cloud = React.createClass({
     },
     onMenu(e){
         this.setState({
-            showAction:true,
             menu:{display:false},
             actionType:e
         });
         if (e =='new'){
             this.setState({
-                newValue:'新建文件夹'
+                newValue:'新建文件夹',
+                showAction:true,
             })
+        }
+        if (e =='copy'){
+            var file =this.state.file,
+                itemName =this.state.active,
+                copyItem ={};
+            file.map(function (obj) {
+                if(obj.name==itemName){
+                    copyItem =obj;
+                }
+            });
+            this.setState({
+                copyItem:copyItem,
+                showAction:false,
+            });
+            message.success('复制成功!');
+        }
+        if (e =='paste'){
+            var file =this.state.file,
+                item =this.state.copyItem;
+            var o = {};
+            for(var i=0;i<file.length;i++){
+                if (file[i].name==item.name){
+                    var has=true;
+                }
+            }
+            if (has){
+                Modal.confirm ({
+                    title:'警告',
+                    content:'当前文件夹内存在同名文件，是否继续？',
+                    onOk:function () {
+                        file.push(item);
+                        this.setState({
+                            file:file
+                        });
+                        message.success('黏贴成功!');
+                    },onCancel:function () {
+                        message.success('黏贴取消')
+                    }
+                })
+            }
+
+
+        }
+    },
+    handleAction(){
+        var type =this.state.actionType;
+        if(type=='new'){
+            var ok = true,file =this.state.file,newValue =this.state.newValue;
+            for (var i=0 ;i<file.length;i++){
+                if (file[i].name == newValue){
+                    ok = false;
+                }
+            }
+            if(ok){
+                return this.handleNewFolder(newValue);
+            }else {
+                message.error('文件名字重复！');
+            }
+        }else if (type=='delete'){
+            return this.handleRemoveFolder();
         }
     },
     handleRemoveFolder(){
@@ -106,11 +166,20 @@ var Cloud = React.createClass({
             path:path
         };
         remove(query,function (res) {
+            var file =that.state.file,json=[];
+            for (var i=0 ;i<file.length;i++){
+                if (file[i].name != that.state.active){
+                    json.push(file[i])
+                }
+            }
             that.setState({
-                showAction:false
+                showAction:false,
+                file:json
             });
-            message.success('成功删除'+name+'!');
+            message.success('成功删除!');
         },function (err) {
+
+
         })
     },
     handleNewFolder(name){

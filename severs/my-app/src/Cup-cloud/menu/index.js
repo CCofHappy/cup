@@ -6,7 +6,7 @@ import './index.css'
 
 var menu = React.createClass({
     render:function(){
-        const {active,onRename,onMenu,}=this.props;
+        const {active,onRename,onMenu,copyItem}=this.props;
         return(
             <ul className="right-menu"
                 style={{
@@ -29,7 +29,7 @@ var menu = React.createClass({
                 >复制</li>
                 <li className="allow"
                     onClick={(e)=>onMenu("paste")}
-                    style={{display:active?'block':'none'}}
+                    style={{display:copyItem.name?'block':'none'}}
                 >黏贴</li>
                 <li className="allow"
                     onClick={(e)=>onMenu("delete")}
