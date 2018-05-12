@@ -11,7 +11,6 @@ git push -u origin master //把本地源码库push到github 别名为origin的�
 
 
 #更新代码  
-cd /d/TVCloud  
 git add .  
 git commit -m "update test" //检测文件改动并附加提交注释  
 git push -u origin master //提交修改到项目主线  
